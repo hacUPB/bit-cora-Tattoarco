@@ -12,10 +12,10 @@ D;JLT
 M=1
 
 // Si es mayor o igual a 10, guardar 0 en la dirección 7
-D;JDE
+D;JGE
 @7
 M=0
-@FIN
+@end    
 
 
 
