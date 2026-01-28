@@ -1,19 +1,28 @@
+// contador = 5
+@5
+D=A
+@13
+M=D
+// suma = 0
+@12
+M=0
+(LOOP)
+// suma = suma + contador
+@10
+D=M
+@12
+M=M+D
 
-@1 
-D=A 
-@13 
-M=D 
-@13 
-D=M 
-@5 
-D=D-A 
-@16 
-D;JGT 
-@13 
-D=M 
-@12 
-M=D+M 
-@13 
-M=M+1 
-@4 
-0;JMP 
+// contador = contador - 1
+@10
+M=M-1
+
+// si contador > 0, repetir
+@10
+D=M
+@LOOP
+D;JGT
+
+(END)
+@END
+0;JMP
