@@ -9,14 +9,14 @@ El **PC** indica la dirección de la siguiente instrucción que se va a ejecutar
 2. ¿Cuál es la diferencia fundamental entre una instrucción-A (que empieza con @) y una instrucción-C (que involucra D, M, A, etc.) en el lenguaje ensamblador de Hack? Da un ejemplo de cada una.
 
 La instrucción-A sirve para cargar un valor o una dirección en el registro A.
-Ejemplo: @2 y la instrucción-C sirve para hacer cálculos o mover datos.
-Ejemplo: D=M
+Ejemplo: **@2** y la instrucción-C sirve para hacer cálculos o mover datos.
+Ejemplo: **D=M**
 
 3. Explica la función de los siguientes componentes del computador Hack: el registro D, el registro A y la ALU.
 
-- Registro D: guarda datos temporales para cálculos.
-- Registro A: guarda direcciones de memoria o valores.
-- ALU: realiza operaciones matemáticas y lógicas.
+- **Registro D:** guarda datos temporales para cálculos.
+- **Registro A:** guarda direcciones de memoria o valores.
+- **ALU:** realiza operaciones matemáticas y lógicas.
 
 4. ¿Cómo se implementa un salto condicional en Hack? Describe un ejemplo (p. ej., saltar si el valor de D es mayor que cero).
 
@@ -64,3 +64,5 @@ En los momentos de pobar los códigos que el profesor nos brindaba y los analiza
 4. Pensando en la próxima unidad, ¿Qué harás diferente en tu proceso de estudio para aprender de manera más efectiva?
 
 Practicar más el tema de los ciclos y etiquetas, ya que un cuclo es fundamental al ejecutar una accion en un código de forma repetida.
+
+<img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTFienVkb3hjcTB5NTM1ZWc3aGoyaW8zcXoxNGNjZG1jaGxla2sydyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/13UZisxBxkjPwI/giphy.gif" width="480" height="269" ></img>
