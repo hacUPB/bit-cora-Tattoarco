@@ -100,5 +100,7 @@ A=M
 M=-1
 @KBD_LOOP
 0;JMP
-
 ```
+
+
+<img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMG0xcjNiZzduZDZ2Z2UwOHJvMWlzdG8ydGFoc2owZTgxYWVzMXAzYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bJ4TVNYNUympPgcpem/giphy.gif"></img>
