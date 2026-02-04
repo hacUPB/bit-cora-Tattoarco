@@ -36,4 +36,10 @@ RAM [20496] = 0
 
 ![alt text](image-2.png)
 
-El código no funciona, la línea se mueve a la izquierda al oprimir la tecla "i" pero se hace mas chica al oprimir la "d"
+El código no funciona, la línea se mueve a la izquierda al oprimir la tecla "i" pero se hace mas chica al oprimir la "d".
+Estos no fucnionaba porque el loop retornaba al inici, reiniciando el ciclo desde 0.
+
+- Código funcional. (Se mueve de lado a lado)
+![alt text](image-3.png)
+
+- Ahora el c+odigo se tiene que mover n° veces al oprimir "d" e "i"

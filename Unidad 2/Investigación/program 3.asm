@@ -1,5 +1,13 @@
+//Asigno el valor 20496 al puntero
 @20496
+D=A
+@PUNTERO
+M=D
+//Pinto el puntero 
+@PUNTERO 
+A=M
 M=-1
+
 (KBD_LOOP)
 @KBD
 D=M
@@ -15,17 +23,30 @@ D=D-A
 D;JEQ
 @KBD_LOOP
 0;JMP
+
+
 (IZQUIERDA)
-@20496
+@PUNTERO 
+A=M
 M=0
-@20495
+@PUNTERO
+M=M-1
+@PUNTERO
+A=M
 M=-1
+@KBD_LOOP
 0;JMP
+
+
 (DERECHA)
-@20495
-M=-1
-@20496
+@PUNTERO
+A=M
 M=0
+@PUNTERO
+M=M+1
+@PUNTERO
+A=M
+M=-1
 @KBD_LOOP
 0;JMP
 
