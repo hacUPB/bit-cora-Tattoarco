@@ -11,3 +11,6 @@ for(int i = 1; i <=100; i++){
 }
 ```
 
+Probando el ciclo con el código
+![alt text](image-5.png)
+
