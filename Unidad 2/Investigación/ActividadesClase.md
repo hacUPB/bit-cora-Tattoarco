@@ -1,14 +1,14 @@
-## Actividad 1
+# Actividad 1
 
 - Punto en el screen
 
-<img src="image-1.png " width="750" height="450" ></img>
+![Activity 1 Screenshot](./img/image-1.png)
 
 ## Actividad 2
 
 - Línea horizontal de 16 px
 
-<img src="image.png " width="750" height="450" ></img>
+![Activity 2 Screenshot](./img/image.png)
 
 ## Actividad 3
 
@@ -34,19 +34,18 @@ RAM [20496] = 0
 
 - Asi se Visualiza en código asembly (Se utilizó IA para saber en dóde penr las etiquetas y saber como funcionan)
 
-
-<img src="image-2.png " width="750" height="450" ></img>
+![Assembly Code Non-functional](./img/image-2.png)
 
 El código no funciona, la línea se mueve a la izquierda al oprimir la tecla "i" pero se hace mas chica al oprimir la "d".
 Estos no fucnionaba porque el loop retornaba al inici, reiniciando el ciclo desde 0.
 
 - Código funcional. (Se mueve de lado a lado)
 
-<img src="image-3.png " width="750" height="450" ></img>
+![Functional Code](./img/image-3.png)
 
 - Ahora el codigo se tiene que mover n° veces al oprimir "d" e "i" (funciona)
 
-<img src="image-4.png " width="750" height="450" ></img>
+![Movement Code](./img/image-4.png)
 
 ```.asm
 //Asigno el valor 20496 al puntero
@@ -54,8 +53,8 @@ Estos no fucnionaba porque el loop retornaba al inici, reiniciando el ciclo desd
 D=A
 @PUNTERO
 M=D
-//Pinto el puntero 
-@PUNTERO 
+//Pinto el puntero
+@PUNTERO
 A=M
 M=-1
 
@@ -77,7 +76,7 @@ D;JEQ
 
 
 (IZQUIERDA)
-@PUNTERO 
+@PUNTERO
 A=M
 M=0
 @PUNTERO
@@ -102,5 +101,4 @@ M=-1
 0;JMP
 ```
 
-
-<img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMG0xcjNiZzduZDZ2Z2UwOHJvMWlzdG8ydGFoc2owZTgxYWVzMXAzYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bJ4TVNYNUympPgcpem/giphy.gif"></img>
+![Movement demonstration GIF](https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExMG0xcjNiZzduZDZ2Z2UwOHJvMWlzdG8ydGFoc2owZTgxYWVzMXAzYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bJ4TVNYNUympPgcpem/giphy.gif)
