@@ -1,9 +1,11 @@
 ## Actividad 8
 
 1. ¿Qué ocurre después de llamar a la función cambiarNombre? ¿Por qué aparece el mensaje Destructor: Punto cambiado(70, 80) destruido.?
+
     Después de llamar a la función cambiarNombre, se crea un nuevo objeto Punto con los valores (70, 80) y se asigna a la variable p. El mensaje Destructor: Punto cambiado(70, 80) destruido.aparece porque el objeto original Punto cambiado(10, 20) es destruido al salir del ámbito de la función cambiarNombre. Esto se debe a que el objeto original es creado dentro de la función cambiarNombre y no tiene existencia fuera de esa función, por lo que se libera automáticamente cuando la función termina su ejecución.
 
 2. Por qué original sigue existiendo luego de llamar cambiarNombre?
+
     Porque el objeto original fu creado globalmente. Este no se ve afectado por la función cambiarNombre ya que esta función solo modifica el objeto local creado dentro de su ámbito. El objeto original permanece intacto y sigue existiendo después de llamar a la función.
 
 3. ¿En qué parte del mapa de memoria se encuentra original y en qué parte se encuentra p? ¿Son el mismo objeto? (recuerda usar siempre el depurador para responder estas preguntas).
