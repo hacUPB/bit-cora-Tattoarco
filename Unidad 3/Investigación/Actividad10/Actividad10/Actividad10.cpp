@@ -1,28 +1,34 @@
 #include <iostream>
 using namespace std;
-class Enemigo {
-public:
-	static int totalEnemigos;
-	int vida;
-	int* armas;
-	Enemigo(int v) : vida(v) {
-		totalEnemigos++;
-		armas = new int[3];
-		armas[0] = 10;
-		armas[1] = 15;
-		armas[2] = 20;
-	}
+class Punto {
+public:    int x;    int y;
+	  // Constructor    
+	  Punto(int _x, int _y) : x(_x), y(_y) {
+		  cout << "Constructor: Punto(" << x << ", " << y << ") creado." << endl;
+	  }
+	  // Destructor    
+	  ~Punto() {
+		  cout << "Destructor: Punto(" << x << ", " << y << ") destruido." << endl;
+	  }
+	  // Método para imprimir valores    
+	  void imprimir() {
+		  cout << "Punto(" << x << ", " << y << ")" << endl;
+	  }
 };
-int Enemigo::totalEnemigos = 0;
-void crearEscuadron() {
-	for (int i = 0; i < 5; i++) {
-		Enemigo soldado(100);
-		soldado.vida -= 10;
-	}
-	cout << "Escuadrón creado. Total enemigos: " << Enemigo::totalEnemigos << endl;
-}
 int main() {
-	crearEscuadron();
-	crearEscuadron();
+	{
+		cout << "Inicio del bloque" << endl;
+		Punto pBloque(100, 200);
+		// Coloca un breakpoint aquí para ver 'pBloque' en el stack.        
+		pBloque.imprimir();
+	}
+	Punto* pBloque2 = nullptr;
+	{
+		cout << "Inicio del bloque 2" << endl;
+		pBloque2 = new Punto(500, 600);
+		pBloque2->imprimir();
+	}
+	pBloque2->imprimir();
+	delete pBloque2;
 	return 0;
 }
