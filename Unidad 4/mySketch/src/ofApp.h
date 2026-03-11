@@ -1,26 +1,51 @@
 #pragma once
-
 #include "ofMain.h"
+// Nodo de la cola
+struct Node {
 
-class ofApp : public ofBaseApp{
+	float x, y;
+	float radius;
+	ofColor color;
+	float opacity;
+	Node* next;
+	Node(float _x, float _y, float _radius, ofColor _color, float _opacity) : x(_x), y(_y), radius(_radius), color(_color), opacity(_opacity), next(nullptr) {}
+};
 
-	public:
-		// Funciones básicas eindispensables para el funcionaminto del código
-		void setup();
-		void update();
-		void draw();
+struct listNode {
 
-		// Eventos que se pueden ejecutar con acciones externas 
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
-		
+};
+
+// Implementación manual de una cola (FIFO)
+class BrushQueue {
+public:
+	Node* front;
+	Node* rear;
+	int size;
+	int maxSize;
+	BrushQueue(int _maxSize);
+	~BrushQueue();
+	void enqueue(float x, float y, float radius, ofColor color, float opacity);
+	void dequeue();
+	void clear();
+	bool isEmpty();
+};
+
+// Constructor
+BrushQueue::BrushQueue(int _maxSize) : front(nullptr), rear(nullptr), size(0), maxSize(_maxSize) {}
+// Destructor
+BrushQueue::~BrushQueue() {
+	clear();
+}
+
+
+
+class ofApp : public ofBaseApp {
+public:
+	BrushQueue strokes; // Cola de trazos    
+	float backgroundHue = 0;
+	ofApp() : strokes(50) {} // Tamaño máximo de la cola
+	void setup();
+	void update();
+	void draw();
+	void keyPressed(int key);
 };
