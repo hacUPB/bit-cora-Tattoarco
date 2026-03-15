@@ -2,24 +2,41 @@
 //--------------------------------------------------------------
 void ofApp::setup() {    
 		ofBackground(0);
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 30; i++) {
 			strokes.enqueue(ofGetWidth()/ 2, ofGetHeight() / 2, 20, ofColor(250, 20), 2);
 		}
 }
 //--------------------------------------------------------------
-void ofApp::update() {    
+void ofApp::update() { 
 		backgroundHue += 0.2;    
 		if (backgroundHue > 255) 
 				backgroundHue = 0;
     // TODO: agregar un nuevo trazo si el mouse está presionado.    
     // Usa strokes.enqueue(x, y, radius, color, opacity);
+		float moveX = ofGetMouseX();
+		float moveY = ofGetMouseY();
+		glm::vec2 positionMix;
+		float interpolationFactor = 0.2;
+		Node* current = strokes.front;
 
-		if (ofGetMousePressed()) {
-			strokes.enqueue(ofGetMouseX(), ofGetMouseY(), 20, ofColor(250, 20), 2);
+		while (current != nullptr) {
+			// glm::mix(x, y, a)        
+			// mix performs a linear interpolation x and y using a to weight between them.    
+			// The value is computed as x * (1 - a) + y * a.      
+			positionMix = glm::mix(glm::vec3(current->x, current->y, 0.0f), glm::vec3(moveX, moveY, 0.0f), interpolationFactor);
+			current->x = positionMix.x;
+			current->y = positionMix.y;
+			moveX = current->x;        
+			moveY = current->y;
+			
+			current = current->next;
 		}
-    }
+		backgroundHue = fmod(backgroundHue + 0.1, 255);
+}
+
+
 //--------------------------------------------------------------
-void ofApp::draw() {    
+void ofApp::draw() {
 	ofColor color1 = ofColor::fromHsb(backgroundHue, 150, 240);
 	ofColor color2 = ofColor::fromHsb(fmod(backgroundHue + 128, 255), 150, 240);
 	ofBackgroundGradient(color1, color2, OF_GRADIENT_LINEAR);
@@ -32,13 +49,11 @@ void ofApp::draw() {
 	while (current) {
 		float hue = ofMap(index++, 0, strokes.size - 1, 0, 255);
 		mesh.addColor(ofColor::fromHsb(hue, 200, 255));
-		mesh.addVertex(glm::vec3(current->x, current ->y, 0.0f));
+		mesh.addVertex(glm::vec3(current->x, current->y, 0.0f));
 		current = current->next;
 	}
 	ofSetLineWidth(2);
 	mesh.draw();
-
-
 	// Círculos con tamaño y color variable    
 	current = strokes.front;
 	index = 0;
@@ -59,15 +74,14 @@ void ofApp::keyPressed(int key) {
 				}    
 		if (key == 'a') {
 
-
 			// TODO: alternar entre 50 y 100 trazos.    
-			if (strokes.size = 50) {
+			if (strokes.size == 50) {
 				for (int i = 0; i < 50; i++) {
 					strokes.enqueue(ofGetWidth() / 2, ofGetHeight() / 2, 20, ofColor(250, 20), 2);
 				}
 			}
 			else {
-				for (int i = 0; i < 100; i++) {
+				for (int i = 0; i < 50; i++) {
 					strokes.dequeue();
 				}
 			}
