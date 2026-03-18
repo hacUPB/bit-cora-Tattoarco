@@ -43,7 +43,7 @@ class ofApp : public ofBaseApp {
 public:
 	BrushQueue strokes; // Cola de trazos    
 	float backgroundHue = 0;
-	ofApp() : strokes(100) {} // Tamaño máximo de la cola
+	ofApp() : strokes(50) {} // Tamaño máximo de la cola
 	void setup();
 	void update();
 	void draw();

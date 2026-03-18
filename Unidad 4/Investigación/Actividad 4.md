@@ -55,3 +55,6 @@ void ofApp::update() {
 
 ![alt text](./img/image3.png)
 
+-  El código que se muestra a continuación es el código ya funcional. Se ha corregido el error en la función `enqueue()` para que los nodos se agreguen correctamente a la cola. Además, se ha agregado la lógica para dibujar los nodos en la función `draw()`, lo que permite visualizar la serpiente en la pantalla.
+
+``` .c++
