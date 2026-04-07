@@ -48,6 +48,11 @@ public class Programa
         misFiguras.Add(new Circulo(5.0));
         misFiguras.Add(new Rectangulo(4.0, 6.0));
         misFiguras.Add(new Circulo(10.0));
+        // mis figuras es una lista de figuras,
+        // cada figura puede ser un circulo o un rectangulo,
+        // y cada figura tiene su propia implementacion del metodo dibujar,
+        // por lo que al llamar a dibujar en cada figura se ejecutara el metodo
+        // correspondiente segun el tipo de figura que sea
         foreach (Figura fig in misFiguras)
         {
             fig.Dibujar();
