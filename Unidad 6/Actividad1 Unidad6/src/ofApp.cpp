@@ -54,7 +54,7 @@ void Particle::draw() {
 }
 void Particle::onNotify(const std::string& event) {
 	if (event == "attract") {
-		setState(new AttractState());
+		setState(new	AttractState());
 	}
 	else if (event == "repel") {
 		setState(new RepelState());
@@ -124,9 +124,10 @@ void StopState::update(Particle* particle) {
 	}
 	particle->position += particle->velocity;
 }
+
 Particle* ParticleFactory::createParticle(const std::string& type) {
 	Particle* particle = new Particle();
-	if (type == "star") {
+	if (type == "star") {	
 		particle->size = ofRandom(2.0f, 4.0f);
 		particle->color = ofColor(255, 0, 0);
 	}
@@ -138,9 +139,15 @@ Particle* ParticleFactory::createParticle(const std::string& type) {
 	else if (type == "planet") {
 		particle->size = ofRandom(5.0f, 8.0f);
 		particle->color = ofColor(0, 0, 255);
+	} 
+	else if (type == "black_hole") {
+		particle->size = ofRandom(40.0f, 50.0f);
+		particle->color = ofColor(255, 0, 255);
 	}
 	return particle;
 }
+	
+
 ofApp::~ofApp() {
 	for (Particle* p : particles) {
 		removeObserver(p);
@@ -148,12 +155,13 @@ ofApp::~ofApp() {
 	}
 	particles.clear();
 }
+
 void ofApp::setup() {
 	ofBackground(0);
 	particles.reserve(100 + 5 + 10);
 	for (int i = 0; i < 100; ++i) {
 		Particle* p = ParticleFactory::createParticle("star");
-		particles.push_back(p);
+		particles.push_back(p);	
 		addObserver(p);
 	}
 	for (int i = 0; i < 5; ++i) {
@@ -164,9 +172,16 @@ void ofApp::setup() {
 	for (int i = 0; i < 10; ++i) {
 		Particle* p = ParticleFactory::createParticle("planet");
 		particles.push_back(p);
-		//addObserver(p);
+		addObserver(p);
+	}
+	for (int i = 0; i < 4; ++i) {
+		Particle* p = ParticleFactory::createParticle("black_hole");
+		particles.push_back(p);
+		addObserver(p);
 	}
 }
+
+
 void ofApp::update() {
 	for (Particle* p : particles) {
 		p->update();

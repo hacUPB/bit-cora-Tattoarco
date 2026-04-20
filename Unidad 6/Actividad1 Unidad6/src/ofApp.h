@@ -8,7 +8,6 @@ public:
 	virtual void onNotify(const std::string& event) = 0;
 };
 
-
 class Subject {
 public:
 	void addObserver(Observer* observer);
@@ -35,7 +34,8 @@ public:
 	~Particle() override;
 	Particle(const Particle&) = delete;
 	Particle& operator=(const Particle&) = delete;
-	void update();  void draw();
+	void update();
+	void draw();
 	void onNotify(const std::string& event) override;
 	void setState(State* newState);
 	ofVec2f position;
@@ -46,6 +46,7 @@ private:
 	void keepInsideWindow();
 	State* state;
 };
+
 
 class NormalState : public State {
 public:
@@ -67,10 +68,13 @@ class StopState : public State {
 public:
 	void update(Particle* particle) override;
 };
+
 class ParticleFactory {
 public:
 	static Particle* createParticle(const std::string& type);
 };
+
+
 class ofApp : public ofBaseApp, public Subject {
 public:
 	~ofApp() override;
