@@ -1,0 +1,46 @@
+### --- C++ --- ###
+# Compilación y Objetos
+*.obj
+*.o
+*.lib
+*.a
+*.pdb
+*.ilk
+*.exp
+
+# Salidas de binarios
+Debug/
+Release/
+x64/
+x86/
+bin/
+obj/
+
+# Archivos de Visual Studio
+.vs/
+*.sln.docstates
+*.suo
+*.user
+
+### --- C# / .NET --- ###
+# Build results
+[Bb]in/
+[Oo]bj/
+[Rr]elease/
+[Dd]ebug/
+
+# Herramientas de paquetes
+.nuget/
+packages/
+*.nupkg
+
+# Otros
+.vs/
+[Pp]ublish/
+
+### --- Archivos del Sistema / IDE --- ###
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

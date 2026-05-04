@@ -1,5 +1,7 @@
 #include "ofApp.h"
 #include <algorithm>
+
+
 void Subject::addObserver(Observer* observer) {
 	if (!observer) return;
 	if (std::find(observers.begin(), observers.end(), observer) == observers.end()) {
@@ -11,6 +13,8 @@ void Subject::removeObserver(Observer* observer) {
 	if (!observer) return;
 	observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
 }
+
+
 void Subject::notify(const std::string& event) {
 	for (Observer* observer : observers) {
 		observer->onNotify(event);
@@ -40,12 +44,16 @@ void Particle::setState(State* newState) {
 		state->onEnter(this);
 	}
 }
+
+	
 void Particle::update() {
 	if (state) {
 		state->update(this);
 	}
 	keepInsideWindow();
 }
+
+
 void Particle::draw() {
 	ofPushStyle();
 	ofSetColor(color);
@@ -54,7 +62,7 @@ void Particle::draw() {
 }
 void Particle::onNotify(const std::string& event) {
 	if (event == "attract") {
-		setState(new	AttractState());
+		setState(new AttractState());
 	}
 	else if (event == "repel") {
 		setState(new RepelState());
@@ -187,11 +195,13 @@ void ofApp::update() {
 		p->update();
 	}
 }
+
 void ofApp::draw() {
 	for (Particle* p : particles) {
 		p->draw();
 	}
 }
+
 void ofApp::keyPressed(int key) {
 	switch (key) {
 	case 's':

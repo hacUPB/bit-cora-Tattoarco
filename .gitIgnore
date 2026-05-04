@@ -7,20 +7,32 @@
 *.pdb
 *.ilk
 *.exp
+*.pch
+*.idb
+*.tlog
+*.lastbuildstate
 
-# Salidas de binarios
+# Salidas de binarios y carpetas de compilación
 Debug/
 Release/
 x64/
 x86/
 bin/
 obj/
+[Aa]rm64/
+Out/
+GeneratedFiles/
 
-# Archivos de Visual Studio
+# Archivos de Visual Studio / MSVC
 .vs/
 *.sln.docstates
 *.suo
 *.user
+*.userosscache
+*.sln.ids
+*.db
+*.opendb
+*.vc.db
 
 ### --- C# / .NET --- ###
 # Build results
@@ -33,10 +45,28 @@ obj/
 .nuget/
 packages/
 *.nupkg
+project.lock.json
+project.fragment.lock.json
 
-# Otros
-.vs/
+# Otros de .NET
 [Pp]ublish/
+*.exe
+*.dll
+# Descomenta la siguiente línea si NO quieres subir los ejecutables resultantes
+# *.app
+
+### --- Web / React (Vite) --- ###
+# Dependencias
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Logs de error
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 ### --- Archivos del Sistema / IDE --- ###
 .DS_Store
@@ -44,3 +74,9 @@ Thumbs.db
 *.swp
 .idea/
 .vscode/
+*.sublime-project
+*.sublime-workspace
+
+
+# Ignorar librerías externas (ajusta la ruta si es necesario)
+external/
