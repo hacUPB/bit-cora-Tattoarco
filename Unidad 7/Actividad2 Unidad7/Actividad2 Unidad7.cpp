@@ -141,7 +141,8 @@ int main()
 	setupTriangle();
 
 	// 9) Configura el viewport
-	glViewport(0, 0, bufferWidth, bufferHeight);
+	//glViewport(0, 0, bufferWidth, bufferHeight);
+	glViewport(0, bufferHeight / 2, bufferWidth / 2, bufferHeight / 2);
 
 
 	// 10) Loop principal
