@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\TATIANA\\Documents\\UNIVERSIDAD\\Sistemas computacionales\\bit-cora-Tattoarco\\Unidad 3\\Investigaci\u00F3n\\Actividad3_Unidad3\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5D0C8552-3CD2-41F5-A921-C919273EE69F}|Actividad3_Unidad3\\Actividad3_Unidad3.vcxproj|C:\\Users\\TATIANA\\Documents\\UNIVERSIDAD\\Sistemas computacionales\\bit-cora-Tattoarco\\Unidad 3\\Investigaci\u00F3n\\Actividad3_Unidad3\\Actividad3_Unidad3\\Actividad3_Unidad3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{5D0C8552-3CD2-41F5-A921-C919273EE69F}|Actividad3_Unidad3\\Actividad3_Unidad3.vcxproj|solutionrelative:Actividad3_Unidad3\\Actividad3_Unidad3.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Actividad3_Unidad3.cpp",
+              "DocumentMoniker": "C:\\Users\\TATIANA\\Documents\\UNIVERSIDAD\\Sistemas computacionales\\bit-cora-Tattoarco\\Unidad 3\\Investigaci\u00F3n\\Actividad3_Unidad3\\Actividad3_Unidad3\\Actividad3_Unidad3.cpp",
+              "RelativeDocumentMoniker": "Actividad3_Unidad3\\Actividad3_Unidad3.cpp",
+              "ToolTip": "C:\\Users\\TATIANA\\Documents\\UNIVERSIDAD\\Sistemas computacionales\\bit-cora-Tattoarco\\Unidad 3\\Investigaci\u00F3n\\Actividad3_Unidad3\\Actividad3_Unidad3\\Actividad3_Unidad3.cpp",
+              "RelativeToolTip": "Actividad3_Unidad3\\Actividad3_Unidad3.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-02-23T15:06:44.748Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
