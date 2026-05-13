@@ -33,3 +33,6 @@ sin() produce valores entre -1 y 1. La fórmula (sin(x) + 1.0) / 2.0 lo conviert
 5. Reflexión: ¿Qué otros efectos visuales simples podrías lograr usando el tiempo como uniform? Piensa en la posición, el tamaño o la rotación (aunque no hemos visto rotaciones formalmente, ¡intuitivamente podrías intentarlo!). Anota al menos una idea.
 
 Podría usar el tiempo para hacer que el triángulo se mueva de un lado a otro usando una función seno para modificar su posición en el vertex shader.
+
+
+Profe si llega a leer esto, yale entendí :|
