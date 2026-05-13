@@ -20,19 +20,7 @@ Al viewport definir que parte el framebuffer va a dibujar hace que las "coordena
 
 
 
-GLFW ──────────────► crea ventana + contexto OpenGL
-                             │
-                    contexto OpenGL (estado gráfico)
-                             │
-                    ┌────────┴────────┐
-                 shaders           framebuffer
-               (vertex + frag)   (memoria donde GPU pinta)
-                    │                  │
-               VAO / VBO           viewport
-           (datos de vértices)  (región visible del framebuffer)
-                    │
-                  GPU ◄──── OpenGL le da instrucciones
-
+![alt text](./img/diagrama1.png)
 
 1. 
 
@@ -71,19 +59,19 @@ const unsigned int SCR_HEIGHT = 700;
 
 1. ¿Qué es el contexto OpenGL?
 
-Es el espacio de trabajo de OpenGL: una estructura interna que almacena todo el estado gráfico (shaders activos, buffers, texturas, matrices, versión usada). Sin él, las funciones de OpenGL no tienen dónde operar. Es como el taller del artista: sin taller, el artista no puede trabajar.
+Es el espacio de trabajo de OpenGL: una estructura interna que almacena todo el estado gráfico.
 
 2. ¿Cuál es el rol de GLFW y qué ventaja tiene?
 
-GLFW actúa como arquitecto del entorno: crea la ventana, el contexto OpenGL y maneja eventos (teclado, mouse, redimensionado). Su ventaja principal es la portabilidad: abstrae las diferencias entre Windows, Linux y macOS. Sin GLFW tendrías que escribir código distinto para cada sistema operativo.
+GLFW actúa como arquitecto del entorno: crea la ventana, el contexto OpenGL y maneja eventos (teclado, mouse, redimensionado). Su ventaja principal es que evita realizar un código distinto por cada sistema operativo.
 
 3. ¿Por qué OpenGL necesita un contexto?
 
-Porque OpenGL no es un programa independiente, sino una API que se comunica con la GPU. Necesita un espacio donde guardar su estado (qué shaders están activos, qué buffers existen, qué versión usar). Volviendo a la analogía: el artista (GPU) no puede crear sin un taller equipado (contexto) donde estén todas sus herramientas.
+Porque OpenGL no es un programa independiente, sino una API que se comunica con la GPU. 
 
 4. ¿Qué es el framebuffer y a qué te recuerda?
 
-El framebuffer es una región de memoria de video donde la GPU deposita los píxeles de cada cuadro antes de mostrarlos en pantalla. Recuerda a los pixelmaps o bitmaps trabajados en unidades anteriores del curso: una grilla de píxeles en memoria que representa una imagen. La diferencia es que aquí la GPU escribe directamente en ella usando los shaders.
+El framebuffer es una región de memoria de video donde la GPU deposita los píxeles de cada cuadro antes de mostrarlos en pantalla. Recuerda a los pixelmaps o bitmaps trabajados en unidades anteriores del curso: una grilla de píxeles en memoria que representa una imagen.
 
 5. ¿Qué relación hay entre el viewport y el framebuffer?
 

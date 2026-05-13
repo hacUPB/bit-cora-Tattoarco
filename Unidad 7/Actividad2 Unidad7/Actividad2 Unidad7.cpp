@@ -2,24 +2,20 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
-// Callback: ajusta el viewport cuando cambie el tamaño de la ventana
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-	glViewport(0, 0, width, height);
+    glViewport(0, 0, width, height);
 }
 
-// Procesa entrada simple: cierra con ESC
 void processInput(GLFWwindow* window) {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
 }
 
-// Tamaño de las ventanas
 const unsigned int SCR_WIDTH = 400;
 const unsigned int SCR_HEIGHT = 400;
 
-// Fuentes de los shaders
-const char* vertexShaderSrc = R"glsl(
+// ─── Shader A: usa location 0 (posición) ────────────────────────────────────
+const char* vertSrcA = R"glsl(
     #version 460 core
     layout(location = 0) in vec3 aPos;
     void main() {
@@ -27,7 +23,26 @@ const char* vertexShaderSrc = R"glsl(
     }
 )glsl";
 
-const char* fragmentShaderSrc = R"glsl(
+// ─── Shader B: usa location 1 (color como posición falsa) ───────────────────
+const char* vertSrcB = R"glsl(
+    #version 460 core
+    layout(location = 1) in vec3 aColor;
+    void main() {
+        gl_Position = vec4(aColor * 0.5, 1.0);
+    }
+)glsl";
+
+// ─── Shader C: usa location 2 (offset 2D) ───────────────────────────────────
+const char* vertSrcC = R"glsl(
+    #version 460 core
+    layout(location = 2) in vec2 aOffset;
+    void main() {
+        gl_Position = vec4(aOffset, 0.0, 1.0);
+    }
+)glsl";
+
+// Fragment shader compartido por los tres
+const char* fragSrc = R"glsl(
     #version 460 core
     out vec4 FragColor;
     void main() {
@@ -35,148 +50,160 @@ const char* fragmentShaderSrc = R"glsl(
     }
 )glsl";
 
-// IDs globales
 unsigned int VAO, VBO;
-unsigned int shaderProg;
+unsigned int shaderA, shaderB, shaderC;
 
-// Compila y linkea un programa de shaders, retorna su ID
-unsigned int buildShaderProgram() {
-	int success;
-	char log[512];
+// ─── Compila un vertex shader + el fragment compartido ──────────────────────
+unsigned int buildShaderProgram(const char* vertSrc) {
+    int  success;
+    char log[512];
 
-	unsigned int vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, &vertexShaderSrc, nullptr);
-	glCompileShader(vs);
-	glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(vs, 512, nullptr, log);
-		std::cerr << "ERROR VERTEX SHADER:\n" << log << "\n";
-	}
+    unsigned int vs = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vs, 1, &vertSrc, nullptr);
+    glCompileShader(vs);
+    glGetShaderiv(vs, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(vs, 512, nullptr, log);
+        std::cerr << "ERROR VERTEX SHADER:\n" << log << "\n";
+    }
 
-	unsigned int fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, &fragmentShaderSrc, nullptr);
-	glCompileShader(fs);
-	glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(fs, 512, nullptr, log);
-		std::cerr << "ERROR FRAGMENT SHADER:\n" << log << "\n";
-	}
+    unsigned int fs = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fs, 1, &fragSrc, nullptr);
+    glCompileShader(fs);
+    glGetShaderiv(fs, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(fs, 512, nullptr, log);
+        std::cerr << "ERROR FRAGMENT SHADER:\n" << log << "\n";
+    }
 
-	unsigned int prog = glCreateProgram();
-	glAttachShader(prog, vs);
-	glAttachShader(prog, fs);
-	glLinkProgram(prog);
-	glGetProgramiv(prog, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(prog, 512, nullptr, log);
-		std::cerr << "ERROR LINKING PROGRAM:\n" << log << "\n";
-	}
+    unsigned int prog = glCreateProgram();
+    glAttachShader(prog, vs);
+    glAttachShader(prog, fs);
+    glLinkProgram(prog);
+    glGetProgramiv(prog, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(prog, 512, nullptr, log);
+        std::cerr << "ERROR LINKING PROGRAM:\n" << log << "\n";
+    }
 
-	glDeleteShader(vs);
-	glDeleteShader(fs);
-	return prog;
+    glDeleteShader(vs);
+    glDeleteShader(fs);
+    return prog;
 }
 
-// Crea un VAO/VBO con los datos de un triángulo
-void setupTriangle() {
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
-	};
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+// ─── VBO con los 3 atributos entrelazados ───────────────────────────────────
+void setupGeometry() {
+    float vertices[] = {
+        //  pos              color            offset
+        -1.0f, -1.0f, 0.0f,  0.0f, 0.0f, 0.0f,  0.1f, 0.5f,
+         0.0f, -1.0f, 0.0f,  1.0f, 0.0f, 0.0f,  0.2f, 0.5f,
+        -0.5f, -0.5f, 0.0f,  0.5f, 0.5f, 0.0f,  0.15f, 0.75f,
+    };
 
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-	glBindVertexArray(0);
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    // Location 0 — posición (3 floats, empieza en byte 0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+        8 * sizeof(float), (void*)(0));
+    glEnableVertexAttribArray(0);
+
+    // Location 1 — color (3 floats, empieza después de 3 floats)
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+        8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    // Location 2 — offset (2 floats, empieza después de 6 floats)
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+        8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+    glBindVertexArray(0);
 }
 
+int main() {
+    if (!glfwInit()) {
+        std::cerr << "Fallo al inicializar GLFW\n";
+        return -1;
+    }
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-int main()
-{
-	// 1) Inicializar GLFW
-	if (!glfwInit()) {
-		std::cerr << "Fallo al inicializar GLFW\n";
-		return -1;
-	}
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT,
+        "Multi-shader VAO", nullptr, nullptr);
+    if (!window) {
+        std::cerr << "Error creando ventana\n";
+        glfwTerminate();
+        return -1;
+    }
 
-	// 2) Crear ventana
-	GLFWwindow* mainWindow = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Ventana", nullptr, nullptr);
-	if (!mainWindow) {
-		std::cerr << "Error creando ventana1\n";
-		glfwTerminate();
-		return -1;
-	}
+    int bufW, bufH;
+    glfwGetFramebufferSize(window, &bufW, &bufH);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwMakeContextCurrent(window);
 
-	// 3) Lee el tamaño del framebuffer
-	int bufferWidth, bufferHeight;
-	glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        std::cerr << "Fallo al cargar GLAD\n";
+        return -1;
+    }
 
-	// 4) Callbacks 
-	glfwSetFramebufferSizeCallback(mainWindow, framebuffer_size_callback);
+    glfwSwapInterval(1);
 
+    // Compilar los tres programas
+    shaderA = buildShaderProgram(vertSrcA);
+    shaderB = buildShaderProgram(vertSrcB);
+    shaderC = buildShaderProgram(vertSrcC);
 
-	// 5) Cargar GLAD y recursos en contexto de window1
-	glfwMakeContextCurrent(mainWindow);
+    setupGeometry();
+    glViewport(0, 0, bufW, bufH);
 
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		std::cerr << "Fallo al cargar GLAD (contexto1)\n";
-		return -1;
-	}
+    while (!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
+        processInput(window);
 
-	// 6) Habilita el V-Sync
-	glfwSwapInterval(1);
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
 
-	// 7) Compila y linkea shaders
-	shaderProg = buildShaderProgram();
+        glBindVertexArray(VAO);
 
-	// 8) Genera el contenido a mostrar
-	setupTriangle();
+        // ── Draw call 1: solo posición (location 0) ──────────────────────────
+        glUseProgram(shaderA);
+        glEnableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	// 9) Configura el viewport
-	//glViewport(0, 0, bufferWidth, bufferHeight);
-	glViewport(0, bufferHeight / 2, bufferWidth / 2, bufferHeight / 2);
+        // ── Draw call 2: solo color (location 1) ─────────────────────────────
+        glUseProgram(shaderB);
+        glDisableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
+        // ── Draw call 3: solo offset (location 2) ────────────────────────────
+        glUseProgram(shaderC);
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	// 10) Loop principal
-	while (!glfwWindowShouldClose(mainWindow))
-	{
-		// 11) Manejo de eventos
-		glfwPollEvents();
+        glfwSwapBuffers(window);
+    }
 
+    // Limpieza
+    glfwMakeContextCurrent(window);
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteProgram(shaderA);
+    glDeleteProgram(shaderB);
+    glDeleteProgram(shaderC);
 
-		// 12) Procesa la entrada
-		processInput(mainWindow);
-
-		// 13) Configura el color de fondo y limpia el framebuffer
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		// 14) Indica a OpenGL que use el shader program
-		glUseProgram(shaderProg);
-
-		// 15) Activa el VAO y dibuja el triángulo
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-
-		// 16) Intercambia buffers y muestra el contenido
-		glfwSwapBuffers(mainWindow);
-	}
-
-	// 17) Limpieza
-	glfwMakeContextCurrent(mainWindow);
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteProgram(shaderProg);
-
-	glfwDestroyWindow(mainWindow);
-	glfwTerminate();
-	return 0;
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    return 0;
 }
